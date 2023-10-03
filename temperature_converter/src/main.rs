@@ -13,7 +13,7 @@ fn celsius_to_fahrenheight(celsius : f32) -> f32 {
 fn temperature_converter(){
     
     //loop as long as they don´t insert a valid option
-    let mut choice = loop {
+    let choice = loop {
         println!("Select your choice of conversion:");
         println!("From Celsius to Fahrenheight (1)");
         println!("From Fahrenheight to Celsius (2)");
@@ -29,23 +29,39 @@ fn temperature_converter(){
         };
         //if guess is valid, break 
         if choice == 1 || choice == 2 {
+            if choice == 1 {
+                println!("So, you´ve chosen Celsius to Fahrenheight conversion");               
+            } else {
+                println!("So, you've chosen Fahrenheight to Celsius conversion");
+            }
             break choice;
         }
         
     };
+    let temperature = loop {
+        if choice == 1 {
+            println!("Input your temperature in Celsius: ");
+        } else {
+            println!("Input your temperature in Fahrenheight");
+        }
+
+        let mut temperature = String::new();
+        io::stdin().read_line(&mut temperature)
+            .expect("Failed to read line");
+        let temperature: f32 = match temperature.trim().parse() {
+            Ok(num) => break num,
+            Err(_) => continue,
+        };
+    };
 
     if choice == 1 {
-        println!("So, you´ve chosen Celsius to Fahrenheight conversion");
-        println!("Input your temperature");
-        let mut temperature = loop {
-
-            
-
-        };
-
-        celsius_to_fahrenheight(temperature);        
+        let temperature_converted = celsius_to_fahrenheight(temperature);    
+        println!("This is your temperature in Fahrenheight: {}", temperature_converted);
     }
-
-
+    
+    if choice == 2 {
+        let temperature_converted = fahrenheight_to_celsius(temperature);
+        println!("This is your temperature in Celsius: {}", temperature_converted);
+    }
 }
 
